@@ -164,5 +164,3 @@ if __name__ == '__main__':
     xmind.parse()
     xmind.dataSet()
     xmind.writeToExecl()
-
-

@@ -10,4 +10,9 @@ xlwt
 pip3 install xmindparser
 pip3 install xlwt
 
+运行：
+1、先把需要转义的xmind文件放到files目录下
+2、在parse.py中把XmindToExcel('需要转义的脑图文件路径')
+3、转换后的文件在工程下的test.xls中
+
 注意脑图需要参照files/模版.xmind这个格式来写哦。
