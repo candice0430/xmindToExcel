@@ -99,7 +99,7 @@ class XmindToExcel:
     def getRequirementID(self,case_data):
         info = ''
         for tmp in case_data:
-            if REQURIEMENT_ID in tmp['title'] :  # 用例等级解析
+            if REQURIEMENT_ID in tmp['title'] or '需求单ID' in tmp['title'] :  # 用例等级解析
                 info = tmp['title'].split('：')[1]  # 获取用例等级 eg：用例等级：高
                 break
         self.requirement_ids.append(info)
@@ -121,23 +121,33 @@ class XmindToExcel:
             self.case_steps.append(info)
         return str(info)
 
+    def isCoreCase(self,title_dict):
+        """
+        :param titleDict:
+        :return: is core case
+        """
+        if 'makers' in title_dict and 'flag-red' in title_dict['makers']:
+            return True
+        return False
+
     def parse(self):
         for mod in self.datas:
             # 模块下确认有子模块以及用例
             if 'topics' in mod:
                 sub_mods = mod['topics']
-                #print("========================子模块==========================")
-                #print("sub_mods",sub_mods)
-                #print("========================子模块==========================")
+                # print("========================子模块==========================")
+                # print("sub_mods",sub_mods)
+                # print("========================子模块==========================")
                 for sub_mod in sub_mods:
-                    #print("sub_mod",sub_mod)
+                    # print("sub_mod",sub_mod)
                     # 子模块下有用例
                     if 'topics' in sub_mod:
                         test_cases = sub_mod['topics']
-                        #print('test_cases',test_cases)
-                        #print(len(test_cases))
                         for test_case in test_cases:
                             case_title = test_case['title']
+                            if self.isCoreCase(test_case):
+                                case_title = "【core】" + case_title
+                                # print(case_title)
                             self.case_titles.append(case_title)
                             if 'topics' in test_case:
                                 case_data = test_case['topics']
